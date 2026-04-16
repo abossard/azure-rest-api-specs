@@ -1451,8 +1451,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The request has succeeded.",
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2958,6 +2958,358 @@
         "tags": [
           "Deployments"
         ]
+      }
+    },
+    "/evaluationSuites": {
+      "get": {
+        "operationId": "EvaluationSuites_listLatest",
+        "description": "List the latest version of each EvaluationSuiteVersion",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "agentName",
+            "in": "query",
+            "required": false,
+            "description": "Filter by associated agent name.",
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "description": "Filter by evaluation suite kind (dataset_backed or evaluator_only).",
+            "schema": {
+              "$ref": "#/components/schemas/EvaluationSuiteKind"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedEvaluationSuiteVersion"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "required": false,
+                "description": "String error code indicating what went wrong.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Azure.Core.Foundations.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluationSuites/{name}/versions": {
+      "get": {
+        "operationId": "EvaluationSuites_listVersions",
+        "description": "List all versions of the given EvaluationSuiteVersion",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "The name of the resource",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedEvaluationSuiteVersion"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "required": false,
+                "description": "String error code indicating what went wrong.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Azure.Core.Foundations.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "EvaluationSuites_createEvaluationSuiteVersion",
+        "description": "Create a new EvaluationSuiteVersion with auto incremented version id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "The name of the resource",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationSuiteVersion"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "required": false,
+                "description": "String error code indicating what went wrong.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Azure.Core.Foundations.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evaluationSuites/{name}/versions/{version}": {
+      "get": {
+        "operationId": "EvaluationSuites_getVersion",
+        "description": "Get the specific version of the EvaluationSuiteVersion. The service returns 404 Not Found error if the EvaluationSuiteVersion does not exist.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "The name of the resource",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "description": "The specific version id of the EvaluationSuiteVersion to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationSuiteVersion"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "required": false,
+                "description": "String error code indicating what went wrong.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Azure.Core.Foundations.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EvaluationSuites_deleteVersion",
+        "description": "Delete the specific version of the EvaluationSuiteVersion. The service returns 204 No Content if the EvaluationSuiteVersion was deleted successfully or if the EvaluationSuiteVersion does not exist.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "The name of the resource",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "description": "The version of the EvaluationSuiteVersion to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "required": false,
+                "description": "String error code indicating what went wrong.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Azure.Core.Foundations.ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "EvaluationSuites_createOrUpdateVersion",
+        "description": "Create a new or update an existing EvaluationSuiteVersion with the given version id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "The name of the resource",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "description": "The specific version id of the EvaluationSuiteVersion to create or update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationSuiteVersion"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationSuiteVersion"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "headers": {
+              "x-ms-error-code": {
+                "required": false,
+                "description": "String error code indicating what went wrong.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Azure.Core.Foundations.ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/merge-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationSuiteVersionUpdate"
+              }
+            }
+          },
+          "description": "The EvaluationSuiteVersion to create or update."
+        }
       }
     },
     "/evaluationrules": {
@@ -13662,6 +14014,23 @@
         },
         "description": "Base class for run data sources with discriminator support."
       },
+      "DatasetReference": {
+        "type": "object",
+        "required": [
+          "datasetName"
+        ],
+        "properties": {
+          "datasetName": {
+            "type": "string",
+            "description": "Dataset name as registered in the Foundry project."
+          },
+          "datasetVersion": {
+            "type": "string",
+            "description": "Dataset version. Omit to use the latest version."
+          }
+        },
+        "description": "Reference to a dataset registered in the Foundry project.\nWhen datasetVersion is omitted the latest version is used."
+      },
       "DatasetType": {
         "anyOf": [
           {
@@ -15083,6 +15452,151 @@
           }
         ],
         "description": "Evaluation task for the schedule."
+      },
+      "EvaluationSuiteEvaluator": {
+        "type": "object",
+        "required": [
+          "evaluatorName"
+        ],
+        "properties": {
+          "evaluatorName": {
+            "type": "string",
+            "description": "Evaluator name from the project's evaluator catalog.\nSupports both built-in evaluators (e.g. coherence, fluency, task_adherence)\nand custom evaluators registered in the catalog."
+          },
+          "threshold": {
+            "type": "number",
+            "format": "double",
+            "description": "Pass/fail threshold. Scores >= threshold pass.\nOmit for informational-only evaluators that report a score\nwithout gating the evaluation suite result."
+          }
+        },
+        "description": "Configuration for an evaluator within an evaluation suite."
+      },
+      "EvaluationSuiteKind": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "dataset_backed",
+              "evaluator_only"
+            ]
+          }
+        ],
+        "description": "The kind of evaluation suite, determining its composition."
+      },
+      "EvaluationSuiteVersion": {
+        "type": "object",
+        "required": [
+          "kind",
+          "evaluators",
+          "name",
+          "version"
+        ],
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "Human-readable display name.\nDoes not need to be unique. Shown in portal list views and eval reports."
+          },
+          "kind": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EvaluationSuiteKind"
+              }
+            ],
+            "description": "Evaluation suite kind.\nBatch: requires a dataset reference; evaluators run against dataset rows.\nContinuous: evaluators only; data comes from live production traces."
+          },
+          "dataset": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DatasetReference"
+              }
+            ],
+            "description": "Dataset reference for offline evaluation.\nRequired when kind is batch. Must be null when kind is continuous.\nThe referenced dataset must exist in the project's dataset registry."
+          },
+          "evaluators": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvaluationSuiteEvaluator"
+            },
+            "minItems": 1,
+            "description": "Evaluator configurations. At least one is required."
+          },
+          "agentName": {
+            "type": "string",
+            "description": "Name of the agent this evaluation suite is associated with.\nOptional — allows evaluation suites to exist before being linked to an agent,\nor to be used as shared baselines (e.g. safety checks)."
+          },
+          "id": {
+            "type": "string",
+            "description": "Asset ID, a unique identifier for the asset",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the resource",
+            "readOnly": true
+          },
+          "version": {
+            "type": "string",
+            "description": "The version of the resource",
+            "readOnly": true
+          }
+        },
+        "description": "An evaluation suite bundles evaluation criteria — an optional dataset, one or more\nevaluators, and pass/fail thresholds — into a reusable, named artifact that\ncan gate agent changes across batch, scheduled, continuous, and CI/CD evals."
+      },
+      "EvaluationSuiteVersionUpdate": {
+        "type": "object",
+        "required": [
+          "kind",
+          "evaluators"
+        ],
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "Human-readable display name.\nDoes not need to be unique. Shown in portal list views and eval reports."
+          },
+          "kind": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EvaluationSuiteKind"
+              }
+            ],
+            "description": "Evaluation suite kind.\nBatch: requires a dataset reference; evaluators run against dataset rows.\nContinuous: evaluators only; data comes from live production traces."
+          },
+          "dataset": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DatasetReference"
+              }
+            ],
+            "description": "Dataset reference for offline evaluation.\nRequired when kind is batch. Must be null when kind is continuous.\nThe referenced dataset must exist in the project's dataset registry."
+          },
+          "evaluators": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvaluationSuiteEvaluator"
+            },
+            "minItems": 1,
+            "description": "Evaluator configurations. At least one is required."
+          },
+          "agentName": {
+            "type": "string",
+            "description": "Name of the agent this evaluation suite is associated with.\nOptional — allows evaluation suites to exist before being linked to an agent,\nor to be used as shared baselines (e.g. safety checks)."
+          },
+          "description": {
+            "type": "string",
+            "description": "The asset description text."
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Tag dictionary. Tags can be added, removed, and updated."
+          }
+        },
+        "description": "An evaluation suite bundles evaluation criteria — an optional dataset, one or more\nevaluators, and pass/fail thresholds — into a reusable, named artifact that\ncan gate agent changes across batch, scheduled, continuous, and CI/CD evals."
       },
       "EvaluationTaxonomy": {
         "type": "object",
@@ -37375,6 +37889,27 @@
           }
         },
         "description": "Paged collection of EvaluationRule items"
+      },
+      "PagedEvaluationSuiteVersion": {
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvaluationSuiteVersion"
+            },
+            "description": "The EvaluationSuiteVersion items on this page"
+          },
+          "nextLink": {
+            "type": "string",
+            "format": "uri",
+            "description": "The link to the next page of items"
+          }
+        },
+        "description": "Paged collection of EvaluationSuiteVersion items"
       },
       "PagedEvaluationTaxonomy": {
         "type": "object",
