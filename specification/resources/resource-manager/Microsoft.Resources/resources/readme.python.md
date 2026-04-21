@@ -17,6 +17,6 @@ modelerfour:
 ```
 
 ``` yaml $(python)
-namespace: azure.mgmt.resource.resources
-output-folder: $(python-sdks-folder)/resources/azure-mgmt-resource/azure/mgmt/resource/resources
+namespace: azure.mgmt.resource
+output-folder: $(python-sdks-folder)/resources/azure-mgmt-resource/azure/mgmt/resource
 ```
